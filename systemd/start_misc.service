@@ -1,0 +1,12 @@
+[Unit]
+Description=Misc
+After=default.target
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/etc/kutils/start_misc
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target

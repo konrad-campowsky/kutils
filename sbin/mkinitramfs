@@ -1,0 +1,32 @@
+#! /bin/sh
+
+set -e
+
+test -f /etc/kutils/kutils.conf && . /etc/kutils/kutils.conf
+test -z "${BOOTENTRY}" && BOOTENTRY=gentoo
+
+BASEDIR=$(mktemp -d)
+#echo $BASEDIR
+cp -a /usr/src/initramfs "${BASEDIR}"
+
+cd "${BASEDIR}/initramfs"
+
+cp -a /bin/busybox bin
+/usr/libexec/plymouth/plymouth-populate-initrd -t .
+
+rm -f usr/share/plymouth/bizcom.png
+rm -f usr/lib64/plymouth/renderers/frame-buffer.so
+rm -f usr/lib64/plymouth/details.so
+rm -f usr/lib64/plymouth/text.so
+rm -fr usr/share/plymouth/themes/details
+rm -fr usr/share/plymouth/themes/text
+rm -fr usr/lib
+find usr/share -name LICENSE -delete
+
+ldconfig -r "${BASEDIR}/initramfs"
+
+find . | cpio -o -H newc | lz4 -l -12 --favor-decSpeed  > "${BASEDIR}/initramfs.img"
+
+cp -a "${BASEDIR}/initramfs.img" "/boot/efi/EFI/${BOOTENTRY}/initramfs-${BOOTENTRY}.img"
+
+rm -fr "${BASEDIR}"

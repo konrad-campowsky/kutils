@@ -1,0 +1,6 @@
+#! /bin/sh
+
+set -eu
+
+echo 0 > /proc/sys/kernel/nmi_watchdog
+echo 1500 > /proc/sys/vm/dirty_writeback_centisecs
