@@ -2,23 +2,21 @@
 
 set -e
 
-. /etc/portage/make.conf
 test -f /etc/kutils/kutils.conf && . /etc/kutils/kutils.conf
-
 test -z "${BOOTENTRY}" && BOOTENTRY=gentoo
 
 if ! test -d "/boot/efi/EFI/${BOOTENTRY}"; then
-	echo "/boot/efi/EFI/${BOOTENTRY} does not exist or is not a directory"
+	echo "/boot/efi/EFI/${BOOTENTRY} does not exist or is not a directory" >&2
 	exit 1
 fi
 
 cd /usr/src/linux
 export KCFLAGS="-march=native -O2 -pipe -fomit-frame-pointer -fdevirtualize-at-ltrans -fgcse-after-reload"
 
-make KCFLAGS="${KCFLAGS}" "${MAKEOPTS}"
-make KCFLAGS="${KCFLAGS}" "${MAKEOPTS}" bzImage 
-make KCFLAGS="${KCFLAGS}" "${MAKEOPTS}" modules 
-make KCFLAGS="${KCFLAGS}" "${MAKEOPTS}" modules_install 
+make KCFLAGS="${KCFLAGS}" -j"$(nproc)"
+make KCFLAGS="${KCFLAGS}" bzImage 
+make KCFLAGS="${KCFLAGS}" modules 
+make KCFLAGS="${KCFLAGS}" modules_install 
 
 chgrp -R portage /usr/src/linux/ /lib/modules/*
 test -n "${KMAKE_EMERGE}" && emerge -1 ${KMAKE_EMERGE}

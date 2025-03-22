@@ -2,10 +2,15 @@
 
 set -e
 
+if ! test -d /usr/src/initramfs; then
+  echo "/usr/src/initramfs is not a directory." >&2
+  exit 1
+fi
+
 test -f /etc/kutils/kutils.conf && . /etc/kutils/kutils.conf
 test -z "${BOOTENTRY}" && BOOTENTRY=gentoo
 
-BASEDIR=$(mktemp -d)
+BASEDIR=`mktemp -d`
 #echo $BASEDIR
 cp -a /usr/src/initramfs "${BASEDIR}"
 
