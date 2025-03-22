@@ -1,0 +1,6 @@
+#! /bin/sh
+
+test -f /etc/kutils/kutils.conf && . /etc/kutils/kutils.conf
+test -z "${BOOTENTRY}" && BOOTENTRY=gentoo
+
+efibootmgr -c -L "${BOOTENTRY}" -d /dev/nvme0n1 -l '\EFI\${BOOTENTRY}\vmlinuz-${BOOTENTRY}.efi'  -u 'ro quiet splash systemd.show_status=0 initrd=EFI\${BOOTENTRY}\initramfs-${BOOTENTRY}.img'
