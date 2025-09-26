@@ -1,5 +1,9 @@
 #! /bin/sh
 
+set -e
+
+mount /boot/efi
+
 test -f /etc/kutils/kutils.conf && . /etc/kutils/kutils.conf
 test -z "${BOOTENTRY}" && BOOTENTRY=gentoo
 
