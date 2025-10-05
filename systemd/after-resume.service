@@ -1,0 +1,11 @@
+[Unit]
+Description=Restart xboxdrv after resume
+After=suspend.target
+
+[Service]
+Type=simple
+ExecStart=/etc/kutils/after-resume.sh
+
+[Install]
+WantedBy=suspend.target
+
