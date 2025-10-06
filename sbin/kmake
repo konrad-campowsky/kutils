@@ -20,7 +20,7 @@ make KCFLAGS="${KCFLAGS}" bzImage
 make KCFLAGS="${KCFLAGS}" modules 
 make KCFLAGS="${KCFLAGS}" modules_install 
 
-chgrp -R portage /usr/src/linux/ /lib/modules/*
+chgrp -HR portage /usr/src/linux/ /lib/modules/*
 test -n "${KMAKE_EMERGE}" && emerge -1 ${KMAKE_EMERGE}
 
 cp arch/x86_64/boot/bzImage "/boot/efi/EFI/${BOOTENTRY}/vmlinuz-${BOOTENTRY}.efi"
