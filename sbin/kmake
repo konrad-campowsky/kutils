@@ -2,7 +2,9 @@
 
 set -e
 
-mount /boot/efi
+if ! mountpoint /boot/efi; then
+	mount /boot/efi
+fi
 
 test -f /etc/kutils/kutils.conf && . /etc/kutils/kutils.conf
 test -z "${BOOTENTRY}" && BOOTENTRY=gentoo
@@ -25,6 +27,10 @@ chgrp -R portage /lib/modules/*
 test -n "${KMAKE_EMERGE}" && emerge -1 ${KMAKE_EMERGE}
 
 cp arch/x86_64/boot/bzImage "/boot/efi/EFI/${BOOTENTRY}/vmlinuz-${BOOTENTRY}.efi"
-test -f "/boot/efi/EFI/${BOOTENTRY}/config" && cp "/boot/efi/EFI/${BOOTENTRY}/config" "/boot/efi/EFI/${BOOTENTRY}/config.old"
+
+if test -f "/boot/efi/EFI/${BOOTENTRY}/config"; then
+	cp "/boot/efi/EFI/${BOOTENTRY}/config" "/boot/efi/EFI/${BOOTENTRY}/config.old"
+fi
+
 cp .config "/boot/efi/EFI/${BOOTENTRY}/config"
 
