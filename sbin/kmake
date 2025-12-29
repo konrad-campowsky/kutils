@@ -2,7 +2,7 @@
 
 set -e
 
-if ! mountpoint /boot/efi; then
+if ! mountpoint -q /boot/efi; then
 	mount /boot/efi
 fi
 
