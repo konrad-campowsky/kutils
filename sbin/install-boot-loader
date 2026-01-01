@@ -14,4 +14,4 @@ if ! test -d "/boot/efi/EFI/${BOOTENTRY}"; then
         exit 1
 fi
 
-efibootmgr -c -L "${BOOTENTRY}" -d /dev/nvme0n1 -l '\EFI\${BOOTENTRY}\vmlinuz-${BOOTENTRY}.efi'  -u 'ro quiet splash systemd.show_status=0 loglevel=3 udev.log_level=3 initrd=EFI\${BOOTENTRY}\initramfs-${BOOTENTRY}.img'
+efibootmgr -c -L "${BOOTENTRY}" -d /dev/nvme0n1 -l "\\EFI\\${BOOTENTRY}\\vmlinuz-${BOOTENTRY}.efi"  -u "ro quiet splash systemd.show_status=0 loglevel=3 udev.log_level=3 initrd=EFI\\${BOOTENTRY}\\initramfs-${BOOTENTRY}.img"
