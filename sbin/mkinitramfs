@@ -7,7 +7,9 @@ if ! test -d /usr/src/initramfs; then
   exit 1
 fi
 
-mount /boot/efi
+if ! mountpoint -q /boot/efi; then
+  mount /boot/efi
+fi
 
 test -f /etc/kutils/kutils.conf && . /etc/kutils/kutils.conf
 test -z "${BOOTENTRY}" && BOOTENTRY=gentoo
