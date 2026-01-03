@@ -34,7 +34,7 @@ find usr/share -name LICENSE -delete
 
 ldconfig -r "${BASEDIR}/initramfs"
 
-find . | cpio -o -H newc | lz4 -l -12 --favor-decSpeed  > "${BASEDIR}/initramfs.img"
+find . | cpio -o -H newc --quiet | lz4 -l -12 --favor-decSpeed  > "${BASEDIR}/initramfs.img"
 
 cp -a "${BASEDIR}/initramfs.img" "/boot/efi/EFI/${BOOTENTRY}/initramfs-${BOOTENTRY}.img"
 
