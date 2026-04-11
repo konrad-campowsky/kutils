@@ -36,4 +36,4 @@ if test -f "/boot/efi/EFI/${BOOTENTRY}/config"; then
 fi
 
 cp .config "/boot/efi/EFI/${BOOTENTRY}/config"
-
+cp .config "/boot/config-$(make kernelrelease)"
